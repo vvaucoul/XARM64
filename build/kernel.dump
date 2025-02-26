@@ -1,0 +1,81 @@
+
+build/kernel.elf:     file format elf64-littleaarch64
+
+
+Disassembly of section .text.boot:
+
+0000000000080000 <_start>:
+   80000:	d53800a0 	mrs	x0, mpidr_el1
+   80004:	92400400 	and	x0, x0, #0x3
+   80008:	b4000060 	cbz	x0, 80014 <_start+0x14>
+   8000c:	d503205f 	wfe
+   80010:	17ffffff 	b	8000c <_start+0xc>
+   80014:	580001a0 	ldr	x0, 80048 <clear_bss+0x14>
+   80018:	9100001f 	mov	sp, x0
+   8001c:	580001a0 	ldr	x0, 80050 <clear_bss+0x1c>
+   80020:	580001c1 	ldr	x1, 80058 <clear_bss+0x24>
+   80024:	94000004 	bl	80034 <clear_bss>
+   80028:	9400000e 	bl	80060 <xarm64_main>
+
+000000000008002c <halt>:
+   8002c:	d503205f 	wfe
+   80030:	17ffffff 	b	8002c <halt>
+
+0000000000080034 <clear_bss>:
+   80034:	eb01001f 	cmp	x0, x1
+   80038:	5400006a 	b.ge	80044 <clear_bss+0x10>  // b.tcont
+   8003c:	f800841f 	str	xzr, [x0], #8
+   80040:	17fffffd 	b	80034 <clear_bss>
+   80044:	d65f03c0 	ret
+   80048:	00080000 	.inst	0x00080000 ; undefined
+   8004c:	00000000 	udf	#0
+   80050:	00081048 	.inst	0x00081048 ; undefined
+   80054:	00000000 	udf	#0
+   80058:	00081048 	.inst	0x00081048 ; undefined
+   8005c:	00000000 	udf	#0
+
+Disassembly of section .text:
+
+0000000000080060 <xarm64_main>:
+   80060:	14000000 	b	80060 <xarm64_main>
+
+Disassembly of section .rodata:
+
+0000000000081000 <boot_message>:
+   81000:	74726f43 	.inst	0x74726f43 ; undefined
+   81004:	37417865 	tbnz	w5, #8, 83f10 <__bss_end+0x2ec8>
+   81008:	654b2036 	.inst	0x654b2036 ; undefined
+   8100c:	6c656e72 	ldnp	d18, d27, [x19, #-432]
+   81010:	6f6f4220 	mls	v0.8h, v17.8h, v15.h[2]
+   81014:	676e6974 	.inst	0x676e6974 ; undefined
+   81018:	002e2e2e 	.inst	0x002e2e2e ; NYI
+
+Disassembly of section .eh_frame:
+
+0000000000081020 <__bss_end-0x28>:
+   81020:	00000010 	udf	#16
+   81024:	00000000 	udf	#0
+   81028:	00527a01 	.inst	0x00527a01 ; undefined
+   8102c:	011e7804 	.inst	0x011e7804 ; undefined
+   81030:	001f0c1b 	.inst	0x001f0c1b ; undefined
+   81034:	00000010 	udf	#16
+   81038:	00000018 	udf	#24
+   8103c:	fffff024 	.inst	0xfffff024 ; undefined
+   81040:	00000004 	udf	#4
+   81044:	00000000 	udf	#0
+
+Disassembly of section .comment:
+
+0000000000000000 <.comment>:
+   0:	3a434347 	ccmn	w26, w3, #0x7, mi  // mi = first
+   4:	62552820 	.inst	0x62552820 ; undefined
+   8:	75746e75 	.inst	0x75746e75 ; undefined
+   c:	2e313120 	usubw	v0.8h, v9.8h, v17.8b
+  10:	2d302e34 	stp	s20, s11, [x17, #-128]
+  14:	75627531 	.inst	0x75627531 ; undefined
+  18:	3175746e 	adds	w14, w3, #0xd5d, lsl #12
+  1c:	2e32327e 	usubw	v30.8h, v19.8h, v18.8b
+  20:	20293430 	.inst	0x20293430 ; undefined
+  24:	342e3131 	cbz	w17, 5c648 <_start-0x239b8>
+  28:	Address 0x0000000000000028 is out of bounds.
+
